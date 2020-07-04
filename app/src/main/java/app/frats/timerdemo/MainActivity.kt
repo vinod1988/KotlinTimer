@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private var secondsRemaining:Int = 0
     private var totalMin:Int = 0
     private var isClassStart:Boolean = false
+    private var totalMinAttended:Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +40,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        isClassStart = false
+        totalMin = 0
+    }
 
     private fun onTimerStart() {
+        isClassStart = true
+        totalMinAttended = 0
         timerObj = Timer()
         val timerTaskObj: TimerTask = object : TimerTask() {
             override fun run() {
@@ -50,10 +59,12 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         secondsRemaining = 0
                         totalMin += 1
+                        totalMinAttended += 1
                     }
 
                     timerTextView.text = "$totalMin:$secondsRemaining".toString()
-                    Log.d("TotalMin=", totalMin.toString())
+                    //Log.d("TotalMin=", totalMin.toString())
+                    Log.d("TotalMinAttended=", totalMinAttended.toString())
                 })
             }
         }
@@ -66,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             timerObj!!.purge();
         }
     }
+
 
 
 
